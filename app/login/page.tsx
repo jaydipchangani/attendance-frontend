@@ -53,7 +53,7 @@ const LoginPage = () => {
           </button>
         </form>
         <p className="mt-4 text-sm text-center">
-          Don't have an account ? Contact to Admin for registration.
+          Don&apos;t have an account ? Contact to Admin for registration.
         </p>
       </div>
     </div>
