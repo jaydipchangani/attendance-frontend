@@ -50,7 +50,7 @@ export default function Attendance() {
     if (!res.ok) throw new Error("Failed to fetch users");
 
     const allUsers = await res.json();
-    const studentsData = allUsers.filter((user: any) => user.role === "STUDENT");
+    const studentsData = allUsers.filter((user: Student) => user.role === "STUDENT");
 
     setStudents(studentsData);
     console.log("Fetched students:", studentsData);
