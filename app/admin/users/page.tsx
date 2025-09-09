@@ -123,26 +123,26 @@ const AdminDashboardPage = () => {
         <table className="w-full bg-white border">
           <thead className="bg-gray-200">
             <tr>
-              <th className="px-4 py-2">ID</th>
-              <th className="px-4 py-2">Name</th>
-              <th className="px-4 py-2">Email</th>
-              <th className="px-4 py-2">Role</th>
-              <th className="px-4 py-2">Department</th>
-              <th className="px-4 py-2">Joining Date</th>
-              <th className="px-4 py-2 w-40 text-center">Actions</th>
+              <th className="px-4 py-2 text-center">ID</th>
+              <th className="px-4 py-2 text-center">Name</th>
+              <th className="px-4 py-2 text-center">Email</th>
+              <th className="px-4 py-2 text-center">Role</th>
+              <th className="px-4 py-2 text-center">Department</th>
+              <th className="px-4 py-2 text-center">Joining Date</th>
+              <th className="px-4 py-2 text-center w-40 text-center">Actions</th>
             </tr>
           </thead>
 
           <tbody>
             {users.map((u) => (
               <tr key={u.s_id} className="border-t">
-                <td className="px-4 py-2">{u.s_id}</td>
-                <td className="px-4 py-2">{u.first_name + " " + u.last_name}</td>
-                <td className="px-4 py-2">{u.email}</td>
-                <td className="px-4 py-2 capitalize">{u.role}</td>
-                <td className="px-4 py-2">{u.department}</td>
-                <td className="px-4 py-2 space-x-2">{new Date(u.joining_date).toLocaleDateString()}</td>
-                <td className="px-4 py-2 space-x-2">
+                <td className="px-4 py-2 ">{u.s_id}</td>
+                <td className="px-4 py-2 text-center">{u.first_name + " " + u.last_name}</td>
+                <td className="px-4 py-2 text-center">{u.email}</td>
+                <td className="px-4 py-2 text-center capitalize">{u.role}</td>
+                <td className="px-4 py-2 text-center">{u.department}</td>
+                <td className="px-4 py-2 text-center space-x-2">{new Date(u.joining_date).toLocaleDateString()}</td>
+                <td className="px-4 py-2 text-center space-x-2">
                   <button className="bg-blue-800 px-3 py-1 rounded"
                     onClick={() => handleEdit(u)}
                     
