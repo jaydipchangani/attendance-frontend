@@ -2,6 +2,7 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { decodeJWT } from "../utils/jwt";
+import { API_BASE } from "../utils/api";
 
 type User = {
   id: string;
@@ -37,7 +38,7 @@ useEffect(() => {
 
 
   const login = async (email: string, password: string) => {
-  const res = await fetch("http://localhost:3000/auth/login", {
+  const res = await fetch(`${API_BASE}auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password }),
