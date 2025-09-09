@@ -14,8 +14,8 @@ const LoginPage = () => {
     try {
       setError("");
       await login(email, password);
-    } catch (err: string | any) {
-      setError(err.message || "Login failed");
+    } catch (err) {
+      setError("Login failed");
     }
   };
 
