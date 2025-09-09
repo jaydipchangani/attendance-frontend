@@ -53,7 +53,7 @@ const LoginPage = () => {
           </button>
         </form>
         <p className="mt-4 text-sm text-center">
-          Don't have an account? <a href="/signup" className="text-blue-600 hover:underline">Sign up</a>
+          Don't have an account ? Contact to Admin for registration.
         </p>
       </div>
     </div>
