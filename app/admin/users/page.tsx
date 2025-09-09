@@ -129,7 +129,7 @@ const AdminDashboardPage = () => {
               <th className="px-4 py-2 text-center">Role</th>
               <th className="px-4 py-2 text-center">Department</th>
               <th className="px-4 py-2 text-center">Joining Date</th>
-              <th className="px-4 py-2 text-center w-40 text-center">Actions</th>
+              <th className="px-4 py-2 text-center w-50 text-center">Actions</th>
             </tr>
           </thead>
 
@@ -143,7 +143,7 @@ const AdminDashboardPage = () => {
                 <td className="px-4 py-2 text-center">{u.department}</td>
                 <td className="px-4 py-2 text-center space-x-2">{new Date(u.joining_date).toLocaleDateString()}</td>
                 <td className="px-4 py-2 text-center space-x-2">
-                  <button className="bg-blue-800 px-3 py-1 rounded"
+                  <button className="bg-green-500 px-3 py-1 rounded"
                     onClick={() => handleEdit(u)}
                     
                   >

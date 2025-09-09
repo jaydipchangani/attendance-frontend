@@ -1,4 +1,4 @@
-export const API_BASE = "http://localhost:3000/"; 
+export const API_BASE = "https://attendance-backend-kgje.onrender.com/"; 
 
 export const fetcher = async (endpoint: string, token?: string) => {
   const res = await fetch(`${API_BASE}${endpoint}`, {
