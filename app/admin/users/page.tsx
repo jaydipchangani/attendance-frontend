@@ -106,73 +106,78 @@ const AdminDashboardPage = () => {
   if (loading) return <p className="p-6">Loading users...</p>;
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-4">All Users</h2>
+ <div>
+  <h2 className="text-2xl font-bold mb-4">All Users</h2>
 
-      <div className="flex justify-between items-center mb-4">
-        <p className="font-medium">Total Users: {users.length}</p>
-        <button
-          onClick={handleAdd}
-          className="px-4 py-2 bg-blue-600 text-white rounded"
-        >
-          + Add User
-        </button>
-      </div>
+  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-4">
+    <p className="font-medium">Total Users: {users.length}</p>
+    <button
+      onClick={handleAdd}
+      className="px-4 py-2 bg-blue-600 text-white rounded text-sm sm:text-base"
+    >
+      + Add User
+    </button>
+  </div>
 
-      <div className="overflow-x-auto">
-        <table className="w-full bg-white border">
-          <thead className="bg-gray-200">
-            <tr>
-              <th className="px-4 py-2 text-center">ID</th>
-              <th className="px-4 py-2 text-center">Name</th>
-              <th className="px-4 py-2 text-center">Email</th>
-              <th className="px-4 py-2 text-center">Role</th>
-              <th className="px-4 py-2 text-center">Department</th>
-              <th className="px-4 py-2 text-center">Joining Date</th>
-              <th className="px-4 py-2 text-center w-50 text-center">Actions</th>
-            </tr>
-          </thead>
+  {/* Table wrapper handles horizontal scroll */}
+  <div className="overflow-x-auto max-w-full">
+    <table className="min-w-[800px] w-full bg-white border text-sm sm:text-base">
+      <thead className="bg-gray-200">
+        <tr>
+          <th className="px-4 py-2 text-center">ID</th>
+          <th className="px-4 py-2 text-center">Name</th>
+          <th className="px-4 py-2 text-center">Email</th>
+          <th className="px-4 py-2 text-center">Role</th>
+          <th className="px-4 py-2 text-center">Department</th>
+          <th className="px-4 py-2 text-center">Joining Date</th>
+          <th className="px-4 py-2 text-center w-50">Actions</th>
+        </tr>
+      </thead>
 
-          <tbody>
-            {users.map((u) => (
-              <tr key={u.s_id} className="border-t">
-                <td className="px-4 py-2 ">{u.s_id}</td>
-                <td className="px-4 py-2 text-center">{u.first_name + " " + u.last_name}</td>
-                <td className="px-4 py-2 text-center">{u.email}</td>
-                <td className="px-4 py-2 text-center capitalize">{u.role}</td>
-                <td className="px-4 py-2 text-center">{u.department}</td>
-                <td className="px-4 py-2 text-center space-x-2">{new Date(u.joining_date).toLocaleDateString()}</td>
-                <td className="px-4 py-2 text-center space-x-2">
-                  <button className="bg-green-500 px-3 py-1 rounded"
-                    onClick={() => handleEdit(u)}
-                    
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="bg-red-500 px-3 py-1 rounded"
-                    onClick={() => handleDelete(u.s_id)}
-                  >
-                    Delete
-                  </button>
-                </td>
+      <tbody>
+        {users.map((u) => (
+          <tr key={u.s_id} className="border-t">
+            <td className="px-4 py-2">{u.s_id}</td>
+            <td className="px-4 py-2 text-center">
+              {u.first_name + " " + u.last_name}
+            </td>
+            <td className="px-4 py-2 text-center">{u.email}</td>
+            <td className="px-4 py-2 text-center capitalize">{u.role}</td>
+            <td className="px-4 py-2 text-center">{u.department}</td>
+            <td className="px-4 py-2 text-center">
+              {new Date(u.joining_date).toLocaleDateString()}
+            </td>
+            <td className="px-4 py-2 text-center space-y-2 sm:space-y-0 sm:space-x-2 flex flex-col sm:flex-row justify-center">
+              <button
+                className="bg-green-500 px-3 py-1 rounded text-white text-sm"
+                onClick={() => handleEdit(u)}
+              >
+                Edit
+              </button>
+              <button
+                className="bg-red-500 px-3 py-1 rounded text-white text-sm"
+                onClick={() => handleDelete(u.s_id)}
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
 
-              </tr>
-            ))}
-          </tbody>
+  {/* Modal */}
+  {isModalOpen && (
+    <UserModal
+      user={editingUser}
+      onClose={() => setIsModalOpen(false)}
+      onSubmit={handleSubmit}
+    />
+  )}
+</div>
 
-        </table>
-      </div>
 
-      {/* Modal */}
-      {isModalOpen && (
-        <UserModal
-          user={editingUser}
-          onClose={() => setIsModalOpen(false)}
-          onSubmit={handleSubmit}
-        />
-      )}
-    </div>
   );
 };
 

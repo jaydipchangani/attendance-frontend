@@ -20,10 +20,12 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md bg-white p-8 rounded shadow">
-        <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4 sm:px-6">
+      <div className="w-full max-w-sm sm:max-w-md bg-white p-6 sm:p-8 rounded shadow">
+        <h1 className="text-xl sm:text-2xl font-bold mb-6 text-center">Login</h1>
+
+        {error && <p className="text-red-500 mb-4 text-sm sm:text-base">{error}</p>}
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-1">Email</label>
@@ -31,7 +33,7 @@ const LoginPage = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
               required
             />
           </div>
@@ -41,19 +43,20 @@ const LoginPage = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
               required
             />
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition text-sm sm:text-base"
           >
             Login
           </button>
         </form>
-        <p className="mt-4 text-sm text-center">
-          Don&apos;t have an account ? Contact to Admin for registration.
+
+        <p className="mt-4 text-xs sm:text-sm text-center text-gray-600">
+          Don&apos;t have an account? <span className="font-medium">Contact the Admin</span> for registration.
         </p>
       </div>
     </div>
