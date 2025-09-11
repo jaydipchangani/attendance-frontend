@@ -106,7 +106,7 @@ const AdminDashboardPage = () => {
   if (loading) return <p className="p-6">Loading users...</p>;
 
   return (
- <div>
+<div>
   <h2 className="text-2xl font-bold mb-4">All Users</h2>
 
   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-4">
@@ -119,9 +119,9 @@ const AdminDashboardPage = () => {
     </button>
   </div>
 
-  {/* Table wrapper handles horizontal scroll */}
-  <div className="overflow-x-auto max-w-full">
-    <table className="min-w-[800px] w-full bg-white border text-sm sm:text-base">
+  {/* Responsive Table */}
+  <div className="hidden md:block">
+    <table className="w-full bg-white border text-sm sm:text-base">
       <thead className="bg-gray-200">
         <tr>
           <th className="px-4 py-2 text-center">ID</th>
@@ -130,14 +130,14 @@ const AdminDashboardPage = () => {
           <th className="px-4 py-2 text-center">Role</th>
           <th className="px-4 py-2 text-center">Department</th>
           <th className="px-4 py-2 text-center">Joining Date</th>
-          <th className="px-4 py-2 text-center w-50">Actions</th>
+          <th className="px-4 py-2 text-center">Actions</th>
         </tr>
       </thead>
 
       <tbody>
         {users.map((u) => (
           <tr key={u.s_id} className="border-t">
-            <td className="px-4 py-2">{u.s_id}</td>
+            <td className="px-4 py-2 text-center">{u.s_id}</td>
             <td className="px-4 py-2 text-center">
               {u.first_name + " " + u.last_name}
             </td>
@@ -147,7 +147,7 @@ const AdminDashboardPage = () => {
             <td className="px-4 py-2 text-center">
               {new Date(u.joining_date).toLocaleDateString()}
             </td>
-            <td className="px-4 py-2 text-center space-y-2 sm:space-y-0 sm:space-x-2 flex flex-col sm:flex-row justify-center">
+            <td className="px-4 py-2 text-center space-x-2">
               <button
                 className="bg-green-500 px-3 py-1 rounded text-white text-sm"
                 onClick={() => handleEdit(u)}
@@ -167,6 +167,51 @@ const AdminDashboardPage = () => {
     </table>
   </div>
 
+  {/* Mobile Card View */}
+  <div className="space-y-4 md:hidden">
+    {users.map((u) => (
+      <div
+        key={u.s_id}
+        className="bg-white border rounded-lg p-4 shadow-sm space-y-2"
+      >
+        <p>
+          <span className="font-semibold">ID:</span> {u.s_id}
+        </p>
+        <p>
+          <span className="font-semibold">Name:</span> {u.first_name} {u.last_name}
+        </p>
+        <p>
+          <span className="font-semibold">Email:</span> {u.email}
+        </p>
+        <p>
+          <span className="font-semibold">Role:</span>{" "}
+          <span className="capitalize">{u.role}</span>
+        </p>
+        <p>
+          <span className="font-semibold">Department:</span> {u.department}
+        </p>
+        <p>
+          <span className="font-semibold">Joining Date:</span>{" "}
+          {new Date(u.joining_date).toLocaleDateString()}
+        </p>
+        <div className="flex justify-end gap-2 pt-2">
+          <button
+            className="bg-green-500 px-3 py-1 rounded text-white text-sm"
+            onClick={() => handleEdit(u)}
+          >
+            Edit
+          </button>
+          <button
+            className="bg-red-500 px-3 py-1 rounded text-white text-sm"
+            onClick={() => handleDelete(u.s_id)}
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    ))}
+  </div>
+
   {/* Modal */}
   {isModalOpen && (
     <UserModal
@@ -176,6 +221,7 @@ const AdminDashboardPage = () => {
     />
   )}
 </div>
+
 
 
   );

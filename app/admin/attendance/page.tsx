@@ -181,48 +181,82 @@ export default function Attendance() {
         Loading attendance...
       </p>
     ) : (
-      // 👇 Scroll only inside this wrapper
-      <div className="overflow-x-auto max-w-full">
-        <table className="min-w-[700px] w-full bg-white border text-sm sm:text-base">
-          <thead className="bg-gray-200">
-            <tr>
-              <th className="px-4 py-2">Student ID</th>
-              <th className="px-4 py-2">Name</th>
-              <th className="px-4 py-2">Email</th>
-              <th className="px-4 py-2">Department</th>
-              <th className="px-4 py-2">Present Days</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100 bg-white">
-            {data.length > 0 ? (
-              data.map((item) => (
-                <tr key={item.student.s_id} className="border-t">
-                  <td className="px-4 py-2 text-center">{item.student.s_id}</td>
-                  <td className="px-4 py-2 text-center">
-                    {item.student.first_name} {item.student.last_name}
-                  </td>
-                  <td className="px-4 py-2 text-center">{item.student.email}</td>
-                  <td className="px-4 py-2 text-center">
-                    {item.student.department}
-                  </td>
-                  <td className="px-4 py-2 text-center">
-                    {item.totalPresentDays}
+      <>
+        {/* Desktop Table */}
+        <div className="hidden md:block overflow-x-auto">
+          <table className="w-full bg-white border text-sm sm:text-base">
+            <thead className="bg-gray-200">
+              <tr>
+                <th className="px-4 py-2">Student ID</th>
+                <th className="px-4 py-2">Name</th>
+                <th className="px-4 py-2">Email</th>
+                <th className="px-4 py-2">Department</th>
+                <th className="px-4 py-2">Present Days</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100 bg-white">
+              {data.length > 0 ? (
+                data.map((item) => (
+                  <tr key={item.student.s_id} className="border-t">
+                    <td className="px-4 py-2 text-center">{item.student.s_id}</td>
+                    <td className="px-4 py-2 text-center">
+                      {item.student.first_name} {item.student.last_name}
+                    </td>
+                    <td className="px-4 py-2 text-center">{item.student.email}</td>
+                    <td className="px-4 py-2 text-center">
+                      {item.student.department}
+                    </td>
+                    <td className="px-4 py-2 text-center">
+                      {item.totalPresentDays}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={5} className="px-6 py-10 text-center text-gray-500">
+                    No attendance data available.
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td
-                  colSpan={5}
-                  className="px-6 py-10 text-center text-gray-500"
-                >
-                  No attendance data available.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Mobile Card View */}
+        <div className="space-y-4 md:hidden">
+          {data.length > 0 ? (
+            data.map((item) => (
+              <div
+                key={item.student.s_id}
+                className="bg-white border rounded-lg p-4 shadow-sm space-y-2"
+              >
+                <p>
+                  <span className="font-semibold">ID:</span> {item.student.s_id}
+                </p>
+                <p>
+                  <span className="font-semibold">Name:</span>{" "}
+                  {item.student.first_name} {item.student.last_name}
+                </p>
+                <p>
+                  <span className="font-semibold">Email:</span> {item.student.email}
+                </p>
+                <p>
+                  <span className="font-semibold">Department:</span>{" "}
+                  {item.student.department}
+                </p>
+                <p>
+                  <span className="font-semibold">Present Days:</span>{" "}
+                  {item.totalPresentDays}
+                </p>
+              </div>
+            ))
+          ) : (
+            <p className="px-6 py-10 text-center text-gray-500">
+              No attendance data available.
+            </p>
+          )}
+        </div>
+      </>
     )}
   </div>
 
@@ -261,9 +295,7 @@ export default function Attendance() {
                       type="radio"
                       name={`status-${s.s_id}`}
                       checked={record?.status === "PRESENT"}
-                      onChange={() =>
-                        handleStatusChange(s.s_id, "PRESENT")
-                      }
+                      onChange={() => handleStatusChange(s.s_id, "PRESENT")}
                     />
                     Present
                   </label>
@@ -272,9 +304,7 @@ export default function Attendance() {
                       type="radio"
                       name={`status-${s.s_id}`}
                       checked={record?.status === "ABSENT"}
-                      onChange={() =>
-                        handleStatusChange(s.s_id, "ABSENT")
-                      }
+                      onChange={() => handleStatusChange(s.s_id, "ABSENT")}
                     />
                     Absent
                   </label>
@@ -302,6 +332,7 @@ export default function Attendance() {
     </div>
   )}
 </div>
+
 
   );
 }
