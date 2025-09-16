@@ -57,7 +57,12 @@ const LoginPage = () => {
 
         <p className="mt-4 text-xs sm:text-sm text-center text-gray-600">
           Don&apos;t have an account? <span className="font-medium">Contact the Admin</span> for registration.
+
+          <p>Admin id & password : admin@gmail.com</p>
+
+        <p>Student id & password : jaydip@gmail.com</p>
         </p>
+        
       </div>
     </div>
   );
