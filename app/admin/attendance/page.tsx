@@ -28,6 +28,10 @@ export default function Attendance() {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
 
+ const [sortConfig, setSortConfig] = useState<{
+    key: keyof AttendanceSummary | keyof Student | null;
+    direction: "asc" | "desc";
+  }>({ key: null, direction: "asc" });
   // Modal state
   const [modalOpen, setModalOpen] = useState(false);
   const [markDate, setMarkDate] = useState("");
@@ -66,7 +70,39 @@ export default function Attendance() {
   }
 };
 
+const handleSort = (key: keyof AttendanceSummary | keyof Student) => {
+    let direction: "asc" | "desc" = "asc";
+    if (sortConfig.key === key && sortConfig.direction === "asc") {
+      direction = "desc";
+    }
 
+    const sorted = [...data].sort((a, b) => {
+      let aValue: any;
+      let bValue: any;
+
+      // If sorting by student field
+      if (key in a.student) {
+        aValue = a.student[key as keyof Student];
+        bValue = b.student[key as keyof Student];
+      } else {
+        aValue = a[key as keyof AttendanceSummary];
+        bValue = b[key as keyof AttendanceSummary];
+      }
+
+      // Convert string numbers to number
+      if (typeof aValue === "string" && !isNaN(Number(aValue))) {
+        aValue = Number(aValue);
+        bValue = Number(bValue);
+      }
+
+      if (aValue < bValue) return direction === "asc" ? -1 : 1;
+      if (aValue > bValue) return direction === "asc" ? 1 : -1;
+      return 0;
+    });
+
+    setData(sorted);
+    setSortConfig({ key, direction });
+  };
   const fetchAttendance = async () => {
     setLoading(true);
     try {
@@ -84,7 +120,6 @@ export default function Attendance() {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-
       if (!res.ok) throw new Error("Failed to fetch attendance");
 
       const result = await res.json();
@@ -184,43 +219,52 @@ export default function Attendance() {
       <>
         {/* Desktop Table */}
         <div className="hidden md:block overflow-x-auto">
-          <table className="w-full bg-white border text-sm sm:text-base">
-            <thead className="bg-gray-200">
-              <tr>
-                <th className="px-4 py-2">Student ID</th>
-                <th className="px-4 py-2">Name</th>
-                <th className="px-4 py-2">Email</th>
-                <th className="px-4 py-2">Department</th>
-                <th className="px-4 py-2">Present Days</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100 bg-white">
-              {data.length > 0 ? (
-                data.map((item) => (
-                  <tr key={item.student.s_id} className="border-t">
-                    <td className="px-4 py-2 text-center">{item.student.s_id}</td>
-                    <td className="px-4 py-2 text-center">
-                      {item.student.first_name} {item.student.last_name}
-                    </td>
-                    <td className="px-4 py-2 text-center">{item.student.email}</td>
-                    <td className="px-4 py-2 text-center">
-                      {item.student.department}
-                    </td>
-                    <td className="px-4 py-2 text-center">
-                      {item.totalPresentDays}
-                    </td>
+              <table className="w-full bg-white border text-sm sm:text-base">
+                <thead className="bg-gray-200">
+                  <tr>
+                    {[
+                      { label: "Student ID", key: "s_id" },
+                      { label: "Name", key: "first_name" },
+                      { label: "Email", key: "email" },
+                      { label: "Department", key: "department" },
+                      { label: "Present Days", key: "totalPresentDays" },
+                    ].map((col) => (
+                      <th
+                        key={col.key}
+                        className="px-4 py-2 cursor-pointer select-none text-center"
+                        onClick={() => handleSort(col.key as keyof AttendanceSummary | keyof Student)}
+                      >
+                        {col.label}
+                        {sortConfig.key === col.key && (
+                          <span>{sortConfig.direction === "asc" ? " ▲" : " ▼"}</span>
+                        )}
+                      </th>
+                    ))}
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={5} className="px-6 py-10 text-center text-gray-500">
-                    No attendance data available.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+                </thead>
+                <tbody className="divide-y divide-gray-100 bg-white">
+                  {data.length > 0 ? (
+                    data.map((item) => (
+                      <tr key={item.student.s_id} className="border-t">
+                        <td className="px-4 py-2 text-center">{item.student.s_id}</td>
+                        <td className="px-4 py-2 text-center">
+                          {item.student.first_name} {item.student.last_name}
+                        </td>
+                        <td className="px-4 py-2 text-center">{item.student.email}</td>
+                        <td className="px-4 py-2 text-center">{item.student.department}</td>
+                        <td className="px-4 py-2 text-center">{item.totalPresentDays}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={5} className="px-6 py-10 text-center text-gray-500">
+                        No attendance data available.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
 
         {/* Mobile Card View */}
         <div className="space-y-4 md:hidden">
