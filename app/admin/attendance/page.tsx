@@ -77,8 +77,8 @@ const handleSort = (key: keyof AttendanceSummary | keyof Student) => {
     }
 
     const sorted = [...data].sort((a, b) => {
-      let aValue: any;
-      let bValue: any;
+      let aValue: Student | string | number;
+let bValue: Student | string | number;
 
       // If sorting by student field
       if (key in a.student) {
